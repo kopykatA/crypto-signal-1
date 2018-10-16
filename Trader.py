@@ -8,7 +8,9 @@ import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
 import mpl_finance #import candlestick_ohlc
 from datetime import datetime
-
+# API key_path
+key_path = "/home/luonglee/Programming/python-binance/Vault"
+sys.path.append(os.path.abspath(key_path))
 from BinanceKeys import BinanceKey1
 from binance.client import Client
 api_key = BinanceKey1['api_key']
