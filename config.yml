@@ -1,0 +1,156 @@
+# Copy this file to config.yml to get started and then add your own configuration.
+# Full documentation here: https://github.com/CryptoSignal/crypto-signal/blob/master/docs/config.md
+
+settings:
+  update_interval: 300
+  market_pairs:
+    ['ETH/BTC', 'XRP/BTC', 'BCC/BTC', 'EOS/BTC', 'XLM/BTC', 'LTC/BTC', 'ADA/BTC', 'XMR/BTC', 'DASH/BTC', 'IOTA/BTC', 'TRX/BTC', 'NEO/BTC', 'ETC/BTC', 'BNB/BTC', 'ZEC/BTC', 'OMG/BTC', 'BTG/BTC', 'BCN/BTC', 'LSK/BTC', 'ZRX/BTC', 'ONT/BTC', 'QTUM/BTC', 'BTS/BTC', 'NANO/BTC', 'BCD/BTC', 'ZIL/BTC', 'STEEM/BTC', 'ICX/BTC', 'AE/BTC', 'SC/BTC', 'WAVES/BTC', 'XVG/BTC', 'BAT/BTC', 'NPXS/BTC', 'STRAT/BTC', 'REP/BTC', 'GNT/BTC', 'HOT/BTC']
+
+
+
+exchanges:
+  binance:
+    required:
+      enabled: true
+
+notifiers:
+    gmail:
+        required:
+            username: linhpham114@gmail.com
+            password: iloveme123
+            destination_emails:
+                - luonglx@gmail.com
+        optional:
+            template: "{{exchange}}-{{market}}-{{indicator}}-{{indicator_number}} is {{status}}!{{ '\n' -}}"
+#Another example:
+
+#- 50-period RSI over hourly candlesticks
+#- 14-period RSI over 5minutes candlesticks
+#- 14-period Stoch-RSI over 5minutes candlesticks
+#- 14-period MFI over 5minutes candlesticks
+#- Momentum and MACD enabled, but without notifications
+#- obv, ichimoku not enabled
+#- 10-period EMA over daily candlesticks
+#- 30-period EMA over daily candlesticks
+#- EMA Crossover (crossing 10-period and 30-period)
+#- MACD Crossover (crossing macd and macdsignal)
+
+
+indicators:
+    rsi:
+        - enabled: true
+          alert_enabled: false
+          alert_frequency: once
+          signal:
+            - rsi
+          hot: 30
+          cold: 70
+          candle_period: 1h
+          period_count: 50
+        - enabled: true
+          alert_enabled: true
+          alert_frequency: once
+          signal:
+            - rsi
+          hot: 30
+          cold: 70
+          candle_period: 5m
+          period_count: 14
+    stoch_rsi:
+        - enabled: true
+          alert_enabled: true
+          alert_frequency: once
+          signal:
+            - stoch_rsi
+          hot: 20
+          cold: 80
+          candle_period: 5m
+          period_count: 14
+    momentum:
+        - enabled: true
+          alert_enabled: false
+          alert_frequency: once
+          signal:
+            - momentum
+          hot: 0
+          cold: 0
+          candle_period: 1d
+          period_count: 10
+        - enabled: true
+          alert_enabled: false
+          alert_frequency: once
+          signal:
+            - momentum
+          hot: 0
+          cold: 0
+          candle_period: 1h
+          period_count: 12
+    macd:
+        - enabled: true
+          alert_enabled: false
+          alert_frequency: once
+          signal:
+            - macd
+          hot: 0
+          cold: 0
+          candle_period: 15m
+        - enabled: true
+          alert_enabled: false
+          alert_frequency: once
+          signal:
+            - macdsignal
+          hot: 0
+          cold: 0
+          candle_period: 15m
+    obv:
+        - enabled: false
+    mfi:
+        - enabled: true
+          alert_enabled: true
+          alert_frequency: once
+          signal:
+            - mfi
+          hot: 20
+          cold: 80
+          candle_period: 5m
+          period_count: 14
+    ichimoku:
+        - enabled: false
+
+informants:
+    ema:
+        - enabled: true
+          signal:
+            - ema
+          candle_period: 1d
+          period_count: 10
+        - enabled: true
+          signal:
+            - ema
+          candle_period: 1d
+          period_count: 30
+
+crossovers:
+    std_crossover:
+        - enabled: true
+          alert_enabled: true
+          alert_frequency: once
+          key_indicator: ema
+          key_indicator_index: 0
+          key_indicator_type: informants
+          key_signal: ema
+          crossed_indicator: ema
+          crossed_indicator_index: 1
+          crossed_indicator_type: informants
+          crossed_signal: ema
+        - enabled: true
+          alert_enabled: true
+          alert_frequency: once
+          key_indicator: macd
+          key_indicator_index: 0
+          key_indicator_type: indicators
+          key_signal: macd
+          crossed_indicator: macd
+          crossed_indicator_index: 1
+          crossed_indicator_type: indicators
+          crossed_signal: macdsignal
